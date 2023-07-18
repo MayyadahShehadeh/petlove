@@ -18,8 +18,8 @@ class DataCollection {
       return this.model.findAll({});
     }
   }
-  get2(username) {
-      return this.model.findAll({where: {username } });
+  get2(choosenPet) {
+      return this.model.findAll({where: {petType: choosenPet} });
    
   }
 

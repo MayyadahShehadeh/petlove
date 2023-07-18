@@ -3,9 +3,10 @@
 const express = require('express');
 const dataModules = require('../models');
 const router = express.Router();
+const router2 = express.Router();
 const bearer = require('../src/middlewares/bearer');
 const permissions = require('../src/middlewares/acl');
-
+const {pets} = require('../models/index')
 router.param('model', (req, res, next) => {
   const modelName = req.params.model;
   if (dataModules[modelName]) {
@@ -18,24 +19,24 @@ router.param('model', (req, res, next) => {
 
 router.get('/:model', handleGetAll);
 router.get('/:model/:id', handleGetOne);
-// router.get('/:model', handleGet222);
+router2.get('/choosenpet', handleGet222);
 
-router.post('/:model',bearer,permissions('createPet'), handleCreate);
-router.put('/:model/:id',bearer,permissions('updatePet'), handleUpdate);
-router.delete('/:model/:id',bearer,permissions('deletePet'), handleDelete);
+router.post('/:model',bearer, handleCreate);
+router.put('/:model/:id',bearer, handleUpdate);
+router.delete('/:model/:id',bearer, handleDelete);
 
 async function handleGetAll(req, res) {
   let allRecords = await req.model.get();
   res.status(200).json(allRecords);
 }
-// api/v2/cats?username=mayadah2
-// async function handleGet222(req, res) {
-//   const id = req.query.id;
-//   console.log('username',username);
-//   let theRecord = await req.model.get2(id)
-//   console.log('reacord queryy', theRecord);
-//   res.status(200).json(theRecord);
-// }
+// api/v22/choosenpet=dogs
+async function handleGet222(req, res) {
+  const choosenPet = req.query.choosenPet;
+  console.log('choosenPet',choosenPet);
+  let theRecord = await pets.get2(choosenPet)
+  console.log('dataModules.pets', dataModules.pets);
+  res.status(200).json(theRecord);
+}
 async function handleGetOne(req, res) {
   const id = req.params.id;
   let theRecord = await req.model.get(id)
@@ -62,6 +63,6 @@ async function handleDelete(req, res) {
 }
 
 
-module.exports = router;
+module.exports = {router,router2};
 
 

@@ -11,7 +11,8 @@ const authRoutes = require('../routes/routes.js');
 const logger = require('./middlewares/logger.js');
 
 const v1Routes = require('../routes/v1.js');
-const v2Routes = require('../routes/v2.js');
+const { router,
+  router2 } = require('../routes/v2.js');
 const axios = require('axios');
 
 // Prepare the express app
@@ -28,7 +29,9 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use(authRoutes);
 // app.use('/api/v1', v1Routes);
-app.use('/api/v2', v2Routes);
+app.use('/api/v2', router);
+app.use('/api/v22', router2);
+
 
 
 // http://localhost:3000/getDogs
@@ -42,7 +45,7 @@ app.use('/api/v2', v2Routes);
 //       'X-RapidAPI-Host': 'dog-breeds2.p.rapidapi.com'
 //     }
 //   };
-  
+
 //   try {
 //     const response = await axios.request(options);
 //     console.log(response.data);

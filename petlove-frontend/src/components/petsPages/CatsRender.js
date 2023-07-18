@@ -14,13 +14,16 @@ import {
 } from 'mdb-react-ui-kit';
 import Auth from '../auth/auth';
 import { LoginContext } from '../context/context';
+import { PetsDataContext } from '../context/PetsContext';
 
 export default function DogsRenders() {
 
-  const dataContext = useContext(DataContext);
+  // const dataContext = useContext(DataContext);
   const loginContext = useContext(LoginContext);
-  const apiCats = dataContext.getCats;
-  const catsDatabase = dataContext.dbCats;
+  const petsContext = useContext(PetsDataContext);
+
+  // const apiCats = dataContext.getCats;
+  const catsDatabase = petsContext.allPets;
 
   // const [allCats, setAllCats] = useState([]);
   const [show, setShow] = useState(false);
@@ -34,9 +37,9 @@ export default function DogsRenders() {
     let choosenCat = catsDatabase.find(item => {
       return item.id === catID
     })
-    console.log('choosenCat', choosenCat);
-    setcatOwnerName(choosenCat.catOwnerName);
-    setcatOwnerEmail(choosenCat.catOwnerEmail);
+    // console.log('choosenCat', choosenCat);
+    setcatOwnerName(choosenCat.petOwnerName);
+    setcatOwnerEmail(choosenCat.petOwnerEmail);
     setcatOwnerPhone(choosenCat.userPhone);
     setShow(true);
 
@@ -57,38 +60,51 @@ export default function DogsRenders() {
 
   return (
     <div style={{ marginLeft: '140px', marginRight: '140px', marginTop: '80px' }}>
-      {/* {console.log('loginContext.user.username', loginContext.user.user.username)} */}
 
 
-      <MDBRow className='row-cols-1 row-cols-md-4 g-4'>
-        {/* {console.log('all catsssss:', allCats)} */}
-        {catsDatabase.map((item, idx) => {
-          return (
 
 
-            <MDBCol >
-              <MDBCard className='h-100' style={{ margin: '10px' }}>
-                <MDBCardImage
-                  src={item.image_link}
-                  alt='...'
-                  position='top'
-                />
-                <MDBCardBody>
-                  <MDBCardTitle>{item.name}</MDBCardTitle>
 
+<div style={{marginLeft:'140px',marginRight:'140px',marginTop:'80px'}}>
+            <MDBRow className='row-cols-1 row-cols-md-4 g-4'>
 
-                  {/* <Auth capability="read"> */}
+            {/* {console.log('getdbDogs', petsContext.allPets)} */}
+
+            {catsDatabase.map((item, idx) => {
+              if(item.petType == "cat"){
+
+              
+                return (
+                    <MDBCol>
+                    <MDBCard className='h-100' style={{margin:'10px'}} key={idx}>
+                      <MDBCardImage
+                        src={item.image_link}
+                        alt='...'
+                        position='top'
+                      />
+                      <MDBCardBody>
+                        <MDBCardTitle>{item.name}</MDBCardTitle>
+                         {/* <Auth capability="read"> */}
                   <button onClick={() => { ownerContactInformation(item.id) }}>contact the owner </button>
                   {/* </Auth> */}
-                </MDBCardBody>
+                  <button onClick={() => { petsContext.addFavPet(item.id) }}>add to favo </button>
 
-              </MDBCard>
-            </MDBCol>
-          );
-        })
-        }
-      </MDBRow>
-      {/* ----------------------------- SHOW CONTACT OWNER INFORMATION IN MODAL ---------------- */}
+                      </MDBCardBody>
+                  
+                    </MDBCard>
+                  </MDBCol>
+                    // <p>
+                    //     {item.breed}
+                    // </p>
+                )
+                      }
+            })
+            }
+              </MDBRow>
+        </div>
+
+
+    {/* ----------------------------- SHOW CONTACT OWNER INFORMATION IN MODAL ---------------- */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -106,6 +122,47 @@ export default function DogsRenders() {
         </Modal.Footer>
       </Modal>
       {/* --------------------------------------------------- */}
+
+
+
+
+
+
+
+      {/* ------------------------------- */}
+
+      {/* {console.log('loginContext.user.username', loginContext.user.user.username)} */}
+
+
+      {/* <MDBRow className='row-cols-1 row-cols-md-4 g-4'> */}
+        {/* {console.log('all catsssss:', allCats)} */}
+        {/* {catsDatabase.map((item, idx) => {
+          return (
+
+
+            <MDBCol >
+              <MDBCard className='h-100' style={{ margin: '10px' }}>
+                <MDBCardImage
+                  src={item.image_link}
+                  alt='...'
+                  position='top'
+                /> */}
+                {/* <MDBCardBody>
+                  <MDBCardTitle>{item.name}</MDBCardTitle>
+ */}
+
+                  {/* <Auth capability="read"> */}
+                  {/* <button onClick={() => { ownerContactInformation(item.id) }}>contact the owner </button> */}
+                  {/* </Auth> */}
+                {/* </MDBCardBody>
+
+              </MDBCard>
+            </MDBCol>
+          );
+        })
+        } */}
+      {/* </MDBRow> */}
+  
     </div>
   )
 }

@@ -72,13 +72,14 @@ export default function App() {
                                                   
                                                        {ContextLogin.user.user.username}
                                                    <br/>
-                                                   {ContextLogin.user.user.role}
+                                                   {ContextLogin.loggedIn}
                                                 </MDBNavbarItem>
                                             </MDBDropdownItem>
 
                                             <MDBDropdownItem link>
                                                 <MDBNavbarItem >
-                                                    <MDBNavbarLink href='/PetOwnerProfile'>
+                                                  
+                                                    <MDBNavbarLink  href='/profile'>
                                                         Profile
                                                     </MDBNavbarLink>
                                                 </MDBNavbarItem>
